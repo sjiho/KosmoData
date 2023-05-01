@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<!-- jQuery CDN 불러오기  -------------------------------------------->
+<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script type="text/javascript">
+	alert("자바스크립트 블럭 >>> : ");
+	
+	$(document).ready(function(){
+		alert("제이쿼리 ready() 함수 블럭 >>> : ");
+		
+		$('#btnAjax').click(function(){
+			alert("btnAjax 버튼  블럭 >>> : ");
+			
+			let urlAjax = "/kosMember/kos_ajax/data_01.jsp";
+			let typeAjax = "GET";
+			let dataAjax = $('#mid').val();
+			alert("urlAjax >>> : " + urlAjax);
+			alert("typeAjax >>> : " + typeAjax);
+			alert("dataAjax >>> : " + dataAjax);
+			
+			$.ajax({
+						url:urlAjax,
+						type:typeAjax,
+						data:{mid: dataAjax,},					
+						success:function(aaa){
+							alert(aaa);
+							$('#ajax_return_data').html("화면에 리턴된 데이터 출력 >>> : " + aaa);
+						},					
+						error:function(e){
+							alert(e);
+						}
+					});
+		});
+		
+	});
+
+</script>
+</head>
+<body>
+	<form name="ajaxForm" id="ajaxForm">
+		아이디 : <input type="text" id="mid" name="mid">
+		<input type="button" id="btnAjax" value="보내기"> 
+	</form>
+	<div id="ajax_return_data">리터 데이터</div>
+</body>
+</html>

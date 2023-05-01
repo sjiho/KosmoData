@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<title>Insert title"C:/00.KOSMO129/30.web/kos_ajax/data_03.jsp" here</title>
+<!-- jQuery CDN 불러오기  -------------------------------------------->
+<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+
+<script type="text/javascript">
+	alert("자바스크립트 블럭 >>> : ");
+	
+	$(document).ready(function(){
+		alert("제이쿼리 ready() 함수 블럭 >>> : ");
+		
+		$('#btnAjax').click(function(){
+			alert("btnAjax 버튼  블럭 >>> : ");
+			
+			let urlVal = "/kosMember/kos_ajax/data_03.jsp";
+			let typeVal = "GET";
+			let midVal = $('#mid').val();
+			let mpwVal = $('#mpw').val();
+			
+			console.log("urlVal >>> : " + urlVal);
+			console.log("typeVal >>> : " + typeVal);
+			console.log("midVal >>> : " + midVal);
+			console.log("mpwVal >>> : " + mpwVal);
+
+			$.ajax({	
+				url: urlVal,
+				type: typeVal,				
+				data: {					
+					mid : midVal,	// data 는 쿼리 스트링
+					mpw : mpwVal,	// data 는 쿼리 스트링
+				},
+				success : whenSuccess,
+				error : whenError
+			});
+			
+			function whenSuccess(resData){
+				alert("리턴 데이터 >>> : " + resData);	
+				/*
+					<!DOCTYPE html>
+					<html>
+					<head>
+					<meta charset="UTF-8">
+					<title>Insert title here</title>
+					</head>
+					<body>
+					
+					<?xml version='1.0' encoding='UTF-8'?>
+					<login>
+						<result>false</result>	
+					</login>
+					
+					</body>
+					</html>
+				*/				
+				// <html> - dom tree - js 객체 - jQuery 객체 
+				var bool = $(resData).find("result").text();
+				alert("bool >>> : " + bool);
+				alert("typeof(bool) >>> : " + typeof(bool));
+				
+				var bool_js = eval(bool); // eval() 함수는 js함수 , 사용 금지 : 보완 취약점검 대상
+				alert("typeof(bool_js) >>> : " + typeof(bool_js));
+				
+				if (bool_js){
+					alert("true");
+				}else{
+					alert("false >>> : ");
+				}
+			}
+			
+			function whenError(){
+				alert("error");
+			}			
+		});
+	});
+</script>
+</head>
+<body>
+<form name="ajaxForm" id="ajaxForm">
+	아이디 : <input type="text" id="mid" name="mid"><br>
+	비밀번호 : <input type="text" id="mpw" name="mpw"><br>
+	<input type="button" id="btnAjax" value="보내기"> 
+</form>
+</body>
+</html>

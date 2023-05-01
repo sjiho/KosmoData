@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<title>Insert title here</title>
+<!-- jQuery CDN 불러오기  -------------------------------------------->
+<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+<!-- 
+ 	Ajax(Asynchronous JavaScript and XML)
+ 	
+ 	Server로부터 Data를 가져와서 Web 화면을 갱신하지 않고 데이터를 보여줌
+ 	
+ 	함수 : $.ajax(), load(), $.get(), $.post(), $.getJSON()
+ 	
+ 	예약어(keyword) : ajax() 함수에서 {} : 오브젝트 블럭(리터럴 객체)에서 사용 하는 것
+ 	 
+ 	url      : 요청이 전송되는 URL이 포함된 문자열
+ 	type     : http요청 방식 : GET/POST
+ 	data     : http요청 파라미터 문자열 key=value&key=value
+ 	           or http요청 후 리턴값 
+ 	
+ 	dataType : http요청 후 return하는 데이터 Type
+ 	           xml, html, srcipt, json, jsonp, text  	
+ 	success  : function(data: 리턴매개변수, 변수 이름이 가변적이다 ){....} : http요청 성공시 이벤트 핸들러 
+ 	error    : function(){.....} : http요청 실패시 이벤트 핸들러
+ 	 	
+ 	
+ 	timeout  : http요청에 대한 제한 시간(단위 : ms)
+	async    : 요청시 동기 유무 선택(true/false)
+	           true : async, false : sync
+	cache    : 브라우저에 의해 요청되는 페이지를 캐시(true/false)
+	           true : 캐시사용, false : 캐시사용하지 않음 		
+	           
+	$.ajax({
+		"url" : "접속할 페이지 주소" 
+	   ,"type" : "GET" or "POST"
+	   ,"dataType" : "XML" or "JSON"
+	   ,"data" : "파라미터 문자열 key=value&key=value" or { "key":"value", "key":"value"}
+	   ,"success" : function(data){
+	   				// 통신에 성공했을 때 실행되는 함수 
+	   } 
+	   ,"error" : function(data){
+	   				// 통신에 실패했을 때 실행되는 함수 
+	   } 
+	});	           			 	         
+	
+	$.get({
+		"url"
+	   ,{파라미터 Object(JSON)}
+	   ,function (){
+	   	// 통신에 성공했을 때 실행되는 함수 
+	   }			
+	});
+	
+	var ajax = $.get("url",{파라미터 Object(JSON)},function (){... });
+	ajax.fail(function(){
+		// 404, 500 에러등이 발생한 경우 실행 
+	});
+	ajax.always(function(){
+		// 통신 성공, 실패 여부에 상관없이 무조건 마지막에 호출됨
+	});
+	
+	$.post({
+		"url"
+	   ,{파라미터 Object(JSON)}
+	   ,function (){
+		// 통신에 성공했을 때 실행되는 함수 
+	   }			
+	});
+  -->
+<script type="text/javascript">
+	alert("자바스크립트 블럭 >>> : ");
+	
+	$(document).ready(function(){
+		alert("제이쿼리 ready() 함수 블럭 >>> : ");
+		
+		$('#btnAjax').click(function(){
+			alert("btnAjax 버튼  블럭 >>> : ");
+			
+			callAjax();
+			/*
+			$.ajax({	
+				url : "/kosServlet/ajax/data_02.jsp?",
+				type : "POST",				
+				data : {					
+					mid : $('#mid').val(),	// data 는 쿼리 스트링
+					mpw : $('#mpw').val(),	// data 는 쿼리 스트링
+				},
+				success : function (resData){
+					alert("리턴 데이터 >>> : " + resData);
+					$('#ajax_return_data').html("화면에 리턴 데이터 출력 : "  + resData);
+					console.log("콘솔에 리턴 데이터 출력 : " + resData);
+				},
+				error : function (){
+					alert("error");
+				}	
+			});
+			*/
+		});
+	});
+	
+	
+	function callAjax(){
+		alert("<<<>>>");
+	
+		// 예약어(키워드)를 ajax() 함수 안에 {} 자바스크립트 객체 형태(리터럴 객체)로 사용한다.  
+		// $.ajax({"url": "", "type": "", "success" : "function(매개변수){...}"");
+		$.ajax({	
+			url : "/kosMember/kos_ajax/data_02.jsp",		
+			type : "POST",			
+			data : {					
+				mid : $('#mid').val(),	// data 는 쿼리 스트링
+				mpw : $('#mpw').val(),	// data 는 쿼리 스트링			
+			},
+			
+			success : whenSuccess, // 프로퍼티로 함수를 호출 하는 것 whenSuccess 프로퍼티로 
+	                       // function whenSuccess(resData) {...........}
+						   // var wehSucess = function(resData){...}	
+						   // success: function(data){...}
+						   // success: whenSuccess,
+						   // function whenSuccess(resData){....}
+			error : whenError
+		});
+		
+		function whenSuccess(resData){
+			alert("리턴 데이터 >>> : " + resData);
+			$('#ajax_return_data').html("화면에 리턴 데이터 출력 : "  + resData);
+			console.log("콘솔에 리턴 데이터 출력 : " + resData);
+		}
+		
+		function whenError(){
+			alert("error");
+		}				
+	}
+
+</script>
+</head>
+<body>
+<form name="ajaxForm" id="ajaxForm">
+	아이디 : <input type="text" id="mid" name="mid"><br>
+	비밀번호 : <input type="text" id="mpw" name="mpw"><br>
+	<input type="button" id="btnAjax" value="보내기"> 
+</form>
+<div id="ajax_return_data">리턴 데이터</div>
+</body>
+</html>
